@@ -16,6 +16,7 @@ The server is a simple express server that host the web app statically and also 
 
 ## Client <a name="client"></a>
 
+The client is composed of a Web App, created using Functional Programming paradigm.
 
 
 ## Getting Started <a name="getting-started"></a>

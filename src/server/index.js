@@ -19,7 +19,7 @@ const internalServerError = {
   success: false,
   code: 500,
   message: 'Internal Server Error'
-}
+};
 
 // Start up an instance of app
 const app = express();
@@ -72,7 +72,7 @@ app.get('/rovers/:id/latestphotos',getRoverLatestPhotosCallback)
 function getRoversCallback(request, response) {
   fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=${API_KEY}`)
   .then(res => res.json())
-  .then(json => response.send({success:true, rovers: json.rovers}))
+  .then(json => response.send({success:true, rovers: json.rovers.map(rover => Object.assign({}, rover,{photos: []}) )}))
   .catch( () => response.send(internalServerError));
 }
 

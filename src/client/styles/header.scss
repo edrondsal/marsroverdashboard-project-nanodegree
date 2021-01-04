@@ -1,0 +1,92 @@
+/*--------------------------------------------------------
+Style Sheet for Header component. UDACITY Project - Intermediate Javascript Nanodegree
+version: 1.0.0
+last modified: 04/01/21
+author: E. RONDON
+----------------------------------------------------------*/
+@use 'theme';
+
+
+.header-section-style{
+    background-color: theme.$primary-color;
+    box-shadow: 0 3px 4px 0px rgba(0,0,0,0.2);
+    z-index: 100;
+    font-family: theme.$lato-font;
+    color: theme.$text-color;
+}
+
+header{
+    h1{
+        font-weight: 500;
+        font-size: 1.6em;
+        padding: theme.$medium-padding;
+    }
+}
+
+nav {
+
+    width: auto;
+    min-width: 600px;
+    max-width: 960px;
+    margin: 0 auto;
+
+    ul {
+        font-family: theme.$lato-font;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-around;
+    }
+  
+    li { 
+        flex: 1;
+        padding: theme.$medium-padding;
+    }
+  
+}
+
+.navbar-item-style {
+    color: theme.$text-color;
+    &:visited{
+        color: theme.$text-color;
+    }
+    &:hover{
+       color: theme.$secondary-color-dark; 
+    }
+}
+
+/*devices with width inferior or equal to 600px*/
+@media(max-width:600px){
+    nav {
+
+        width: 100%;
+        margin: 0 0;
+        min-width: 100%;
+    
+        ul {
+            flex-flow: column wrap;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        li {
+            flex: 1 0 100%;
+            margin: theme.$medium-margin 0;
+        }
+    }
+}
+
+/*devices with width between 601px and 900px*/
+@media(min-width:601px) and (max-width:900px){
+    nav {
+
+        width: auto;
+        min-width: 500px;
+        max-width: 960px;
+        margin: 0 auto;
+    
+        ul {
+            margin: theme.$medium-margin 0;
+        }
+    }
+}

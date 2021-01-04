@@ -1,0 +1,102 @@
+/*--------------------------------------------------------
+Style Sheet for layout of the app. UDACITY Project - Intermediate Javascript Nanodegree
+version: 1.0.0
+last modified: 03/01/21
+author: E. RONDON
+----------------------------------------------------------*/
+
+@use 'theme';
+
+/*body container with the grid layout of the app*/
+.grid-container{
+    width: auto;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 80px auto auto;
+    grid-template-areas:
+    "hder"
+    "root"
+    "footer";
+}
+/*style and layout of the header section*/
+.header-section-layout{
+    grid-area: hder;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: theme.$medium-padding;
+}
+/*layout and style footer section*/
+.footer-section-layout{
+    grid-area: footer;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: theme.$medium-padding;
+}
+/*layout and style of root container*/
+.root-section-layout{
+    grid-area: root;
+    padding: theme.$medium-padding 1%;
+    min-height: 800px;
+}
+.rovers-section-layout{
+    width: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+}
+.rover-container{
+    width: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column wrap; 
+}
+
+/*layout for devices with width inferior or equal to 600px*/
+@media(max-width:600px){
+    .grid-container{
+        width: 100%;
+        margin: 0 0;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto 50px;
+    } 
+    .header-section-layout{
+        grid-area: hder;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .footer-section-layout{
+        grid-area: footer;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/*layour for devices with width between 601px and 900px*/
+@media(min-width:601px) and (max-width:900px){
+    .grid-container{
+        width: 100%;
+        margin: 0 0;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto 50px;
+    } 
+    .header-section-layout{
+        grid-area: hder;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

@@ -1,0 +1,35 @@
+/*--------------------------------------------------------
+Style Sheet for rover detail page component. UDACITY Project - Intermediate Javascript Nanodegree
+version: 1.0.0
+last modified: 04/01/21
+author: E. RONDON
+----------------------------------------------------------*/
+@use 'theme';
+
+.rover-line-container{
+    width: 100%;
+    background-color: white;
+    margin: theme.$medium-margin auto;
+    display: flex;
+    flex-flow: row wrap;
+
+    p {
+        font-size: 1.1em;
+        margin: 0 theme.$medium-margin;
+    }
+
+}
+
+.rover-photo{
+    height: auto;
+    background-color: white;
+    box-shadow: 2px 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: theme.$border-radius;
+    flex: 1 1 25%;
+    max-width: 25%;
+    margin: theme.$medium-margin 1%;
+}
+
+.rover-line-title{
+    color: theme.$primary-color-dark;
+}

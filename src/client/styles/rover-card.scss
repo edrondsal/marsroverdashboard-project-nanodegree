@@ -1,0 +1,61 @@
+/*--------------------------------------------------------
+Style Sheet for rover card of the app. UDACITY Project - Intermediate Javascript Nanodegree
+version: 1.0.0
+last modified: 03/01/21
+author: E. RONDON
+----------------------------------------------------------*/
+
+@use 'theme';
+
+
+.card-container{
+    width: 100%;
+    background-color: white;
+    box-shadow: 2px 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: theme.$border-radius;
+    flex: 1 1 48%;
+    max-width: 48%;
+    margin: theme.$medium-margin 1%;
+    cursor: pointer;
+}
+
+/*image responsive layout and style*/
+.card-image{
+    width: 100%;
+    height: auto;
+    border-radius: theme.$border-radius theme.$border-radius 0 0;
+}
+
+/*card body*/
+.card-body-container{
+    padding: theme.$min-padding;
+    display: flex;
+    flex-flow: column;
+    font-family: theme.$lato-font;
+
+    h3{
+        font-size: 1.3em;
+        font-weight: 500;
+        color: theme.$primary-color-dark;
+        padding: theme.$min-padding;
+        align-self: center;
+    }
+
+    p{
+        color: theme.$second-text-color;
+        padding: theme.$min-padding;
+        b{
+            color: theme.$primary-color-light;
+        }
+    }
+
+}
+
+/*layout for devices with width inferior or equal to 600px*/
+@media(max-width:600px){
+    .card-container{
+        flex: 1 1 98%;
+        max-width: 98%;
+        margin: theme.$medium-margin 1%;
+    }
+}
