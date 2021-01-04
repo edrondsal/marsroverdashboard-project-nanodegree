@@ -33,3 +33,12 @@ author: E. RONDON
 .rover-line-title{
     color: theme.$primary-color-dark;
 }
+
+/*layout for devices with width inferior or equal to 600px*/
+@media(max-width:600px){
+    .rover-photo{
+        flex: 1 1 98%;
+        max-width: 98%;
+        margin: theme.$medium-margin 1%;
+    }
+}
