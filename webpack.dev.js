@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: './src/Public/client.js',
     mode: 'development',
     devtool: 'source-map',
     stats: 'verbose',
@@ -31,7 +31,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./src/client/views/index.html",
+            template: "./src/Public/index.html",
             filename: "./index.html",
         }),
         new CleanWebpackPlugin({
@@ -46,7 +46,7 @@ module.exports = {
         new CopyWebpackPlugin(
             { 
                 patterns: [
-                    {from:'src/client/images',to:'images'}
+                    {from:'src/Public/Assets/Images',to:'images'}
                 ]
               }
         ),

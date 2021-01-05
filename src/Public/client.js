@@ -1,10 +1,10 @@
-import './styles/resets.scss'
-import './styles/typography.scss'
-import './styles/layout.scss'
-import './styles/rover-card.scss'
-import './styles/rover-detail.scss'
-import './styles/header.scss'
-import './styles/footer.scss'
+import './Assets/Stylesheets/resets.scss'
+import './Assets/Stylesheets/typography.scss'
+import './Assets/Stylesheets/layout.scss'
+import './Assets/Stylesheets/rover-card.scss'
+import './Assets/Stylesheets/rover-detail.scss'
+import './Assets/Stylesheets/header.scss'
+import './Assets/Stylesheets/footer.scss'
 
 const { Map, List } = require('immutable');
 
@@ -191,8 +191,10 @@ const fetchRovers = (root,store) =>{
     .then(newStore => tryRenderRovers(root,newStore))
     .then(renderer => renderer())
 };
+
+
 /**
-* @description Function that try to render the UI or fetch the data
+* @description Function that try to render the UI or fetch the data HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION
 * @param {HTMLElement} root - the root element where add the UI
 * @param {Store} store - the immutable object
 */
@@ -209,7 +211,7 @@ const roverClick = (roverName, root, store) => {
     return () => tryRenderRover(root, store , roverName)();
 };
 /**
-* @description Function that try to render the UI for a Rover or fetch the Rover photos data
+* @description Function that try to render the UI for a Rover or fetch the Rover photos data HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION
 * @param {HTMLElement} root - the root element where add the UI
 * @param {Store} store - the immutable object
 * @param {String} roverName - the name of the rover

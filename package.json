@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "main": "index.js",
     "scripts": {
-        "start": "node src/server/index.js",
+        "start": "node src/Server/index.js",
         "build-dev": "webpack --config webpack.dev.js",
         "build-prod": "webpack --config webpack.prod.js",
         "unit-test": "jest"
@@ -44,6 +44,6 @@
         "workbox-webpack-plugin": "^6.0.2"
     },
     "jest": {
-        "rootDir": "src/client"
+        "rootDir": "src/Public"
     }
 }

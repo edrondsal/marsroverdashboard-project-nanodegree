@@ -18,6 +18,8 @@ The server is a simple express server that host the web app statically and also 
 
 The client is composed of a Web App, created using Functional Programming paradigm.
 
+The High Order Functions have been marked with the comment: `HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION` in the `client.js` file
+
 
 ## Getting Started <a name="getting-started"></a>
 
