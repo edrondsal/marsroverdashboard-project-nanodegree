@@ -40,7 +40,7 @@ const server = app.listen(port,listening);
 dotenv.config();
 
 // set aylien API credentias
-const API_KEY = process.env.API_KEY;
+const API_KEY = !!process.env.API_KEY ? process.env.API_KEY : 'DEMO_KEY';
 
 
 

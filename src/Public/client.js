@@ -123,30 +123,44 @@ const retrieveIndexRover = (store,rover) => {
 */
 const renderRovers = (root,store) => {
     root.innerHTML = createUiRovers(store);
-    const clickListeners = store.get('rovers').map(rover => roverClick(rover.name,root,store));
-    const cards = store.get('rovers').map(rover => document.getElementById(`${rover.id}`));
-    cards.forEach( (item,index) => {
-        item.addEventListener('click',clickListeners[index]);
-    });
+    root.addEventListener('click',roverClick);
 };
+/**
+* @description Function that updates the UI with the network error
+* @param {HTMLElement} root - the root element where add the UI
+*/
+const renderError = (root) => {
+    root.innerHTML = createUiError();
+};
+/**
+* @description Function that returns the error UI in string representation
+* @return {String} the string representation containing the UI
+*/
+const createUiError = () => {
+    return `<div class="rover-container">
+                <div class="rover-line-container">
+                    <p><b class="rover-line-title">Network Error: </b>Please reload the page and try again</p>
+                </div>
+            </div>`;
+};
+
 /**
 * @description Function that returns the string representation of the Rovers Array UI
 * @param {Store} store - the immutable object
 * @return {String} the UI in string representation
 */
 const createUiRovers = (store) => {
-    const sectionStart = `<div class="rovers-section-layout">`;
-    const cardsArticles = createRoversCards(store).reduce( (accumulate,current) => accumulate+='\n'+current );
-    const sectionEnd = '</div>';
-    return sectionStart+cardsArticles+sectionEnd;
+    return `<div class="rovers-section-layout">
+                ${createRoversCards(store)}
+            </div>`;
 };
 /**
 * @description Function that returns array for the rovers cards
 * @param {Store} store - the immutable object
-* @return {String[]} the array containing the string representation for each card
+* @return {String} the string representation containing all cards
 */
 const createRoversCards = (store) => {
-    return store.get('rovers').map(rover => createRoverCard(rover));
+    return arrayOfStringsToString( store.get('rovers').map(rover => createRoverCard(rover)) );
 };
 /**
 * @description Function that return the string representation of a card
@@ -155,7 +169,7 @@ const createRoversCards = (store) => {
 */
 const createRoverCard = (rover) => {
     return `<div class="card-container" id="${rover.id}"> 
-                <img src="${createRoverImage(rover)}" class="card-image">
+                ${createRoverImage(rover)}
                 <div class="card-body-container">
                     <h3>${rover.name}</h3>
                     <p>${createRoverStatus(rover)}</p>
@@ -168,7 +182,7 @@ const createRoverCard = (rover) => {
 * @return {String} the string representation of the URL 
 */
 const createRoverImage = (rover) => {
-    return `images/${rover.name}.jpg`;
+    return `<img src="images/${rover.name}.jpg" class="card-image">`;
 };
 /**
 * @description Function that return the status of the rover
@@ -178,7 +192,6 @@ const createRoverImage = (rover) => {
 const createRoverStatus = (rover) =>{
     return `The mission is ${rover.status}`;
 };
-
 /**
 * @description Function that fetch the rovers data from the server and try to render the ui when loaded
 * @param {HTMLElement} root - the root element where add the UI
@@ -190,9 +203,8 @@ const fetchRovers = (root,store) =>{
     .then(json => updateRovers(store,{roversCharged: json.success,rovers: json.rovers}))
     .then(newStore => tryRenderRovers(root,newStore))
     .then(renderer => renderer())
+    .catch( () => renderError(root));
 };
-
-
 /**
 * @description Function that try to render the UI or fetch the data HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION
 * @param {HTMLElement} root - the root element where add the UI
@@ -202,38 +214,40 @@ const tryRenderRovers = (root, store) => {
     return store.get('roversCharged') ? () => renderRovers(root,store) : () => fetchRovers(root,store);
 };
 /**
-* @description Function that returns the click listener for a card
-* @param {String} roverName - the name of the rover
+* @description Function handling the click event on a card
 * @param {HTMLElement} root - the root element where add the UI
 * @param {Store} store - the immutable object
+* @param {Event} event - the click event
 */
-const roverClick = (roverName, root, store) => {
-    return () => tryRenderRover(root, store , roverName)();
-};
+const roverClick = (event) => {
+    const root = document.getElementById('root');
+    return tryRenderRover(root,store, store.get('rovers').find(rover => rover.id.toString() === event.target.parentNode.id) )();
+}
 /**
 * @description Function that try to render the UI for a Rover or fetch the Rover photos data HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION
 * @param {HTMLElement} root - the root element where add the UI
 * @param {Store} store - the immutable object
-* @param {String} roverName - the name of the rover
+* @param {Rover} rover - the rover object
 */
-const tryRenderRover = (root,store,roverName) => {
-    const rover = store.get('rovers').find(rover => rover.name === roverName);
-    return rover.photos.length > 0 ? () => renderRover(root,rover) : () => fetchRoverPhotos(root,store,roverName);
+const tryRenderRover = (root,store,rover) => {
+    const newRover = store.get('rovers').find(item => item.name === rover.name);
+    return  newRover.photos.length > 0 ? () => renderRover(root,newRover) : () => fetchRoverPhotos(root,store,rover);
 };
 /**
 * @description Function that fetch the rover photos data from the server and try to render the ui when loaded
 * @param {HTMLElement} root - the root element where add the UI
 * @param {Store} store - the immutable object
-* @param {String} roverName - the name of the rover
+* @param {Rover} rover - the rover object
 */
-const fetchRoverPhotos = (root,store,roverName) => {
-    const rover = store.get('rovers').find(rover => rover.name === roverName);
-    const url = `/rovers/${roverName}/latestphotos?earth_date=${rover.max_date}`;
+const fetchRoverPhotos = (root,store,rover) => {
+    const url = `/rovers/${rover.name}/latestphotos?earth_date=${rover.max_date}`;
+    console.log(url);
     return fetch(url)
     .then(res => res.json())
     .then(json => updateRoverPhotos(store,rover,json))
-    .then(newStore => tryRenderRover(root,newStore,roverName))
+    .then(newStore => tryRenderRover(root,newStore,rover))
     .then(renderer => renderer())
+    .catch( () => renderError(root));
 };
 /**
 * @description Function that updates the UI of the Rover details page
@@ -242,6 +256,7 @@ const fetchRoverPhotos = (root,store,roverName) => {
 */
 const renderRover = (root,rover) => {
     root.innerHTML = createUiRover(rover);
+    root.removeEventListener('click',roverClick)
 }
 /**
 * @description Function that returns the string representation of the Rover UI
@@ -262,7 +277,10 @@ const createUiRover = (rover) => {
                     ${getRoverTotalPhotos(rover)}
                 </div>
                 <div class="rover-line-container">
-                    ${getRoverPhoto(rover)}
+                    ${getRoverDatePhotos(rover)}
+                </div>
+                <div class="rover-line-container">
+                    ${getRoverPhotoGallery(rover)}
                 </div>
             </div>`;
 };
@@ -271,8 +289,8 @@ const createUiRover = (rover) => {
 * @param {Rover} rover - the rover data from the store
 * @return {String} the UI in string representation of the gallery
 */
-const getRoverPhoto = (rover) => {
-    return rover.photos.map(photo => `<img src="${photo.img_src}" class="rover-photo">`).reduce( (acc,curr) => acc += curr);
+const getRoverPhotoGallery = (rover) => {
+    return arrayOfStringsToString( rover.photos.map(photo => `<img src="${photo.img_src}" class="rover-photo">`) );
 };
 /**
 * @description Function that returns the string representation of the name ui element
@@ -314,8 +332,22 @@ const getRoverLanding = (rover) => {
 const getRoverTotalPhotos = (rover) => {
     return `<p><b class="rover-line-title">Total Photos: </b>${rover.total_photos}</p>`
 };
-
-
+/**
+* @description Function that returns the string representation of the day photos taken
+* @param {Rover} rover - the rover data from the store
+* @return {String} the UI in string representation
+*/
+const getRoverDatePhotos = (rover) => {
+    return `<p>Photos taken the <b class="rover-line-title"> ${rover.max_date}</b> :</p>`
+};
+/**
+* @description Function that concatenate an array of string into one only string
+* @param {String[]} array - the string array
+* @return {String} the concatenated string
+*/
+const arrayOfStringsToString = (array) => {
+    return array.reduce( (accumulate,current) => accumulate+='\n'+current );
+};
 
 
 
