@@ -18,12 +18,24 @@ The server is a simple express server that host the web app statically and also 
 
 The client is composed of a Web App, created using Functional Programming paradigm.
 
-The High Order Functions have been marked with the comment: `HIGH ORDER FUNCTION BECAUSE RETURNING A FUNCTION` in the `client.js` file
+The goal is to have only one entry point fr each UI page, the functions working as entry points are the follow:
+
+`startApp` :  For the Rovers Page
+`roverClick` : For the Rove Detail page
+
+Also following the immutable rules, there are also only 2 functions that changes the data:
+
+`updateRovers` : For the Rovers Page
+`updateRoverPhotos`: For the Rove Detail page
+
+All other app logic follow a functional chain, each function call and uses the result of another function.
 
 
 ## Getting Started <a name="getting-started"></a>
 
-First clone this github project, and install dependencies: `npm install`
+First clone this github project: `git clone https://github.com/edrondsal/marsroverdashboard-project-nanodegree.git`
+
+Install dependencies: `npm install`
 
 Then run webpack to create the distribution files: `npm run build-dev`
 
