@@ -20,13 +20,13 @@ The client is composed of a Web App, created using Functional Programming paradi
 
 The goal is to have only one entry point fr each UI page, the functions working as entry points are the follow:
 
-`startApp` :  For the Rovers Page
-`roverClick` : For the Rove Detail page
+* `startApp` :  For the Rovers Page
+* `roverClick` : For the Rove Detail page
 
 Also following the immutable rules, there are also only 2 functions that changes the data:
 
-`updateRovers` : For the Rovers Page
-`updateRoverPhotos`: For the Rove Detail page
+* `updateRovers` : For the Rovers Page
+* `updateRoverPhotos`: For the Rove Detail page
 
 All other app logic follow a functional chain, each function call and uses the result of another function.
 
